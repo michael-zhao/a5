@@ -1,4 +1,4 @@
-/** NetId(s): mxz4, tcc78. Time spent: 04 hours, 30 minutes.
+/** NetId(s): nnnn, nnnn. Time spent: hh hours, mm minutes.
  *
  * Please be careful in replacing nnnn by netids and hh by hours and
  * mm by minutes. Any mistakes cause us to have to fix this manually
@@ -89,12 +89,12 @@ public class Heap<E> {
         // Do NOT call bubbleUp until the class invariant is true except
         // for the need to bubble up.
         // Calling bubbleUp is the last thing to be done.
-    	if (map.containsKey(v)) throw new IllegalArgumentException();
-    	ensureSpace();
-    	d[size] = new VP(v,p);
-    	map.put(v, size);
-    	size++;
-    	bubbleUp(size-1);
+        if (map.containsKey(v)) throw new IllegalArgumentException();
+        ensureSpace();
+        d[size]= new VP(v,p);
+        map.put(v, size);
+        size++;
+        bubbleUp(size-1);
     }
 
     /** If size = length of d, double the length of array d.
@@ -110,7 +110,7 @@ public class Heap<E> {
         // If you write this method correctly AND method
         // add calls this method appropriately, testing procedure
         // test10ensureSpace will not find errors. 
-    	if (size == d.length) d = Arrays.copyOf(d, d.length*2);
+    	if (size == d.length) d= Arrays.copyOf(d, d.length*2); 
     }
 
     /** Return the size of this heap.
@@ -134,8 +134,8 @@ public class Heap<E> {
         map.put(d[h].val, k);
         map.put(d[k].val, h);
         VP temp = d[h];
-        d[h]=d[k];
-        d[k]=temp;
+        d[h]= d[k];
+        d[k]= temp;
     }
     
     /** If a value with priority p1 should be above a value with priority
@@ -179,11 +179,12 @@ public class Heap<E> {
         // If this method is written properly, testing procedure
         // test15Add_BubbleUp() will not find any errors.
         assert 0 <= k  &&  k < size;
-        int p = (k-1)/2;
-        while (k > 0 && compareTo(k,p) > 0) {
-        	swap(k,p);
-        	k=p;
-        	p=(k-1)/2;
+        
+        int parent= (k-1)/2;
+        while (k > 0 && compareTo(k,parent) > 0) {
+        	swap(k,parent);
+        	k= parent;
+        	parent= (k-1)/2;
         }
     }
 
@@ -194,7 +195,7 @@ public class Heap<E> {
     public E peek() {
         // TODO 5: Do peek. This is an easy one. If it is correct,
         //         test25MinPeek() and test25MaxPeek will show no errors.
-    	if (size == 0) throw new NoSuchElementException();   	
+    	if (size == 0) throw new NoSuchElementException();
     	return d[0].val;
     }
 
@@ -216,8 +217,8 @@ public class Heap<E> {
         int largerChild= upperChild(k);
         while (largerChild < size && compareTo(k,largerChild) < 0) {
         	swap(k,largerChild);
-        	k=largerChild;
-        	largerChild=upperChild(k);
+        	k= largerChild;
+        	largerChild= upperChild(k);
         }
     }
 
@@ -231,11 +232,8 @@ public class Heap<E> {
     	int c = 2*n+2;
         if (n >= size-1) return n;
         else if (c >= size) return c-1;
-        else if (c < size && compareTo(d[c-1].priority,d[c].priority)==0) 
-        	return c;
-        
-        if (c < size && compareTo(d[c-1].priority,d[c].priority)>0) 
-        		c--;
+        else if (c < size && compareTo(c-1,c) == 0) return c;
+        else if (c < size && compareTo(c-1,c) > 0) c--;
     	return c;
     }
 
@@ -252,17 +250,17 @@ public class Heap<E> {
         //         This method tests to make sure that when bubbling up or down,
         //         two values with the same priority are not swapped.
     	if (size == 0) throw new NoSuchElementException();
-    	E v = d[0].val;
-    	map.remove(v);
-    	E v2 = d[size-1].val;
+    	E v= peek();
     	d[0]= d[size-1];
-    	map.put(v2,0);
-    	map.remove(v2,size-1);
+    	E v2= d[size-1].val;
+    	map.remove(v);
+    	if (v != v2) 
+    		map.put(v2, 0);
     	size--;
-    	if (size > 0)
+    	if (size > 0) 
     		bubbleDown(0);
     	return v;
-    }
+    }	
 
     /** Change the priority of value v to p.
      *  The expected time is logarithmic and the worst-case time is linear
@@ -271,16 +269,14 @@ public class Heap<E> {
     public void updatePriority(E v, double p) {
         // TODO  8: When this method is correctly implemented, testing procedure
         //          test50updatePriority() won't find errors.
-        if (!map.containsKey(v)) throw new IllegalArgumentException();
-    	int index = map.get(v);	
-    	double oldP = d[index].priority;
-    	d[index].priority = p;
-    	if (compareTo(d[index].priority,oldP) > 0) {
-    		bubbleUp(index);
-    	}
-    	if (compareTo(d[index].priority,oldP) < 0) {
-    		bubbleDown(index);
-    	}
+    	if (!map.containsKey(v)) throw new IllegalArgumentException();
+        int index= map.get(v);
+        double oldP= d[index].priority;
+        d[index].priority= p;
+        if (compareTo(d[index].priority,oldP) > 0)
+        	bubbleUp(index);
+        else if (compareTo(d[index].priority,oldP) < 0)
+        	bubbleDown(index);
     }
 
     /** Create and return an array of size n.
