@@ -1,13 +1,13 @@
-/** NetId(s): nnnn, nnnn. Time spent: hh hours, mm minutes.
+/** NetId(s): mxz4, tcc78. Time spent: 04 hours, 30 minutes.
  *
  * Please be careful in replacing nnnn by netids and hh by hours and
  * mm by minutes. Any mistakes cause us to have to fix this manually
  * before extracting times, in order to give you max and median and mean
  * Thanks
  * 
- * Name(s):
+ * Name(s): Michael Zhao, Thomas Chen
  * What I thought about this assignment:
- * 
+ * 很酷
  *
  */
 
